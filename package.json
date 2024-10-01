@@ -5,7 +5,7 @@
   "description": "Ember frontend of the Gelinkt Notuleren application",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lblod/frontend-gelinkt-notuleren.git"
+    "url": "git+https://github.com/lblod/frontend-group-7-decisions.git"
   },
   "license": "MIT",
   "author": "redpencil.io",
