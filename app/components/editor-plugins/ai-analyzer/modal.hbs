@@ -1,10 +1,42 @@
-<AuModal
-  @modalOpen={{@modalOpen}}
-  @closeModal={{@closeModal}}
-  @size="large" >
+<AuModal @modalOpen={{@modalOpen}} @closeModal={{@closeModal}} @size='large'>
   <:title>
     Analysis
   </:title>
   <:body>
+    <AuTable>
+      <:header>
+        <tr>
+          <th>Type</th>
+          <th>text</th>
+          <th>action</th>
+        </tr>
+      </:header>
+      <:body>
+        {{#each @spots as |spot|}}
+          <tr>
+            <td>{{spot.type}}</td>
+            <td>
+              {{#if spot.found}}
+                {{spot.contextText}}
+              {{else}}
+                <AuPill>Location unknown</AuPill>
+              {{/if}}
+            </td>
+            <td>
+
+              {{#if spot.found}}
+                <AuButton
+                  {{on 'click' (fn this.annotate spot)}}
+                >Annotate</AuButton>
+              {{else}}
+                <AuButton {{on 'click' (fn this.docAnnotate spot)}}>Add to
+                  document</AuButton>
+              {{/if}}
+            </td>
+          </tr>
+        {{/each}}
+      </:body>
+
+    </AuTable>
   </:body>
 </AuModal>

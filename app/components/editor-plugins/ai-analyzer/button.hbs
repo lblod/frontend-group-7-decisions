@@ -1,3 +1,5 @@
 <AuButton {{on "click" this.openModal}}>ANALYZE</AuButton>
 <EditorPlugins::AiAnalyzer::Modal @modalOpen={{this.modalOpen}}
-  @closeModal={{this.onCloseModal}}/>
+  @closeModal={{this.onCloseModal}} @controller={{@controller}}
+  @spots={{this.spots}}
+/>
