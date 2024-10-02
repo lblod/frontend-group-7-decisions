@@ -1,4 +1,4 @@
-<AuButton {{on "click" this.openModal}}>ANALYZE</AuButton>
+<AuButton @loading={{this.fetchAiResponsesTask.isRunning}} {{on "click" this.openModal}}>ANALYZE</AuButton>
 <EditorPlugins::AiAnalyzer::Modal @modalOpen={{this.modalOpen}}
   @closeModal={{this.onCloseModal}} @controller={{@controller}}
   @spots={{this.spots}}

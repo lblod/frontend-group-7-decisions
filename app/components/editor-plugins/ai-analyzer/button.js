@@ -30,7 +30,7 @@ export default class EditorPluginsAiAnalyzerButtonComponent extends Component {
     return this.controller.htmlContent;
   }
 
-  findTextInEditor = () => {
+  findTextInEditor = (responses) => {
     const foundSpots = [];
     const doc = this.controller?.mainEditorState.doc;
     const unfoundResponses = new Set();
@@ -72,11 +72,27 @@ export default class EditorPluginsAiAnalyzerButtonComponent extends Component {
   fetchAiResponsesTask = task(async () => {
     // await timeout(400);
     // console.log('FETCH', this.content);
+    const response = await fetch(
+      'http://localhost:8080/extract_organisation/',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // body: '{"input_text": "Vanaf 2022 tot en met 2026 kent de Vlaams Regering aan de gemeenten een algemene werkingssubsidie toe ter gedeeltelijke compensatie van hun verlies aan ontvangsten uit dividenden. Dat dividendverlies is een gevolg van de nieuwe tariefmethodologie die door de Vlaamse Regulator van de Elektriciteits- en Gasmarkt (VREG) werd vastgesteld voor de reguleringsperiode 2021-2024."}',
+        body: JSON.stringify({
+          input_text: this.controller.mainEditorState.doc.textContent,
+        }),
+      },
+    );
+    const json = await response.json();
+    const orgs = json.organisations_list;
+    return orgs.map((org) => ({ uri: 'http://test.com/test', foundIn: org }));
   });
 
   openModal = async () => {
-    this.spots = this.findTextInEditor();
-    await this.fetchAiResponsesTask.perform();
+    const responses = await this.fetchAiResponsesTask.perform();
+    this.spots = this.findTextInEditor(responses);
     this.modalOpen = true;
   };
 
